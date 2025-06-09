@@ -25,19 +25,35 @@ def addtask():
                 break
         except:
             print("Wrong status, try again")
+    while True:
+        try:
+            priority = int(input("What is the priority of this task from 1-10 (1 = most important): "))
+            if 1 <= priority <= 10:
+                break
+            else:
+                print("Priority must be between 1 and 10.")
+        except ValueError:
+            print("Please enter a valid integer.")
     task_id = max([task["id"] for task in tasks], default=0) + 1
-    task = {"id": task_id, "title": title, "deadline": deadline, "status": status}
+    task = {"id": task_id, "title": title, "deadline": deadline, "status": status, "priority":priority}
     tasks.append(task)
+    tasks.sort(key=lambda t: (t['priority'],datetime.strptime(t['deadline'], "%d-%m-%Y")))
     with open('tasks.json', 'w', encoding='utf-8') as file:
         json.dump(tasks, file, ensure_ascii=False, indent=4)
-        json.dumps(sorted(deadline, key=itemgetter('deadline')))
     print("Task was succesfully added!")
 def viewtasks():
     try:
         with open('tasks.json', 'r', encoding='utf-8') as f:
             dane = json.load(f)
-        print(dane)
+        if not dane:
+            print("Brak zadań.")
+            return
+        dane.sort(key=lambda t: (t['priority'], datetime.strptime(t['deadline'], "%d-%m-%Y")))
+        for task in dane:
+            print(f"ID: {task['id']} | Tytuł: {task['title']} | Termin: {task['deadline']} | Status: {task['status']} | Priorytet: {task['priority']}")
     except FileNotFoundError:
         print("No file found")
+
+    
 def updatetask():
     pass
