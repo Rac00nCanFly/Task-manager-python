@@ -1,17 +1,17 @@
 import task_manager as t
 def main():
-    choice = input("What action do you want to take? \n 1. Add task \n 2. Update task \n 3. View tasks \n 4. Set parameters \n Input number between 1-4")
+    choice = input("What action do you want to take? \n 1. Add task \n 2. Update task \n 3. View tasks \n 4. Set parameters \n")
 
     match choice:
-        case 1:
+        case 'Add task':
             t.addtask()
 
-        case 2:
+        case 'Update task':
             t.updatetask()
 
-        case 3:
+        case 'View tasks':
             t.viewtasks()
-        case 4:
+        case 'Set parameters':
             t.setting_parameters()
         case _:
             print("No option found")
